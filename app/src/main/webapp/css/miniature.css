@@ -1,0 +1,657 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+/* ══════════════════════════════════════════
+   VARIABLES
+══════════════════════════════════════════ */
+:root {
+  /* Fond */
+  --bg:          #f2f8fc;
+  --bg-deep:     #e4f1f8;
+
+  /* Surfaces */
+  --surface:     #ffffff;
+  --surface2:    #f0f6fa;
+
+  /* Bordures */
+  --border:      rgba(100, 170, 210, 0.18);
+  --border2:     rgba(100, 170, 210, 0.32);
+
+  /* Palette image */
+  --sky:         #5bbfe0;        /* bleu ciel dominant */
+  --sky-light:   #a8ddf0;
+  --sky-dark:    #2a8fb5;
+  --sky-dim:     rgba(91, 191, 224, 0.12);
+  --sky-glow:    0 4px 18px rgba(91, 191, 224, 0.35);
+
+  --coral:       #ff7b7b;        /* cœur rouge */
+  --coral-dim:   rgba(255, 123, 123, 0.1);
+
+  --yellow:      #ffd166;        /* ballon / cœur jaune */
+  --yellow-dim:  rgba(255, 209, 102, 0.12);
+
+  --pink:        #ffb3c6;        /* rose doux */
+
+  /* Texte */
+  --text:        #1a3040;
+  --text-muted:  #5a8099;
+  --text-dim:    #b0ccd8;
+
+  /* Formes */
+  --radius-xs:   6px;
+  --radius-sm:   12px;
+  --radius:      18px;
+  --radius-lg:   26px;
+  --radius-xl:   36px;
+}
+
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════════════════
+   TYPOGRAPHIE
+══════════════════════════════════════════ */
+h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--sky-dark);
+}
+
+h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sky-dark);
+}
+
+a { color: var(--sky-dark); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--sky); }
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 0 var(--border), 0 4px 20px rgba(91,191,224,0.06);
+}
+
+header h1 {
+  font-size: 1.5rem;
+  flex: 1;
+  background: linear-gradient(130deg, var(--sky-dark) 0%, var(--sky) 60%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════ */
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ══════════════════════════════════════════
+   INDEX / HERO PAGE
+══════════════════════════════════════════ */
+
+body:not(:has(header)):not(.auth-page) {
+  display: grid;
+  grid-template-columns: 50vw 1fr;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f8fc 0%, #faf7ff 100%);
+  overflow: hidden;
+}
+
+/* Figure — colonne gauche */
+body:not(:has(header)):not(.auth-page) figure {
+  position: relative;
+  width: 50vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+
+body:not(:has(header)):not(.auth-page) figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Fondue vers la droite */
+body:not(:has(header)):not(.auth-page) figure::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, #f0f8fc);
+  pointer-events: none;
+}
+
+/* Main — colonne droite */
+body:not(:has(header)):not(.auth-page) main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 52px;
+  max-width: none;
+  margin: 0;
+  gap: 20px;
+  background: linear-gradient(135deg, #f0f8fc 0%, #faf7ff 100%);
+}
+
+body:not(:has(header)):not(.auth-page) h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  background: linear-gradient(130deg, var(--sky-dark) 0%, var(--sky) 55%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+}
+
+body:not(:has(header)):not(.auth-page) article {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeUp 0.5s ease;
+}
+
+body:not(:has(header)):not(.auth-page) article:hover {
+  transform: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+body:not(:has(header)):not(.auth-page) article::before { display: none; }
+
+body:not(:has(header)):not(.auth-page) article p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0 0 8px;
+}
+
+/* Boutons CTA */
+.btn-primary,
+.btn-secondary {
+  display: block;
+  text-align: center;
+  padding: 15px 24px;
+  border-radius: var(--radius);
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.22s;
+  max-width: 320px;
+}
+
+.btn-primary {
+  background: var(--sky);
+  color: #fff;
+  box-shadow: var(--sky-glow);
+}
+
+.btn-primary:hover {
+  background: var(--sky-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(91,191,224,0.45);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--sky-dark);
+  border: 2px solid var(--border2);
+}
+
+.btn-secondary:hover {
+  border-color: var(--sky);
+  background: var(--sky-dim);
+  color: var(--sky-dark);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  body:not(:has(header)):not(.auth-page) main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  body:not(:has(header)):not(.auth-page) main img {
+    grid-column: 1;
+    grid-row: 1;
+    height: 40vh;
+  }
+  body:not(:has(header)):not(.auth-page) h1 {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 32px 24px 0;
+    font-size: 2.2rem;
+  }
+  body:not(:has(header)):not(.auth-page) article {
+    grid-column: 1;
+    grid-row: 3;
+    padding: 16px 24px 40px;
+  }
+  .btn-primary, .btn-secondary { max-width: 100%; }
+}
+
+/* ══════════════════════════════════════════
+   FEED TOGGLE
+══════════════════════════════════════════ */
+form:has(button[value="recommendations"]) {
+  flex-direction: row !important;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px;
+  gap: 4px;
+  box-shadow: 0 2px 10px rgba(91,191,224,0.08);
+}
+
+button[value="recommendations"],
+button[value="subscriptions"] {
+  flex: 1;
+  background: transparent;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  transition: all 0.2s;
+}
+
+button[value="recommendations"]:hover,
+button[value="subscriptions"]:hover {
+  background: var(--sky-dim);
+  color: var(--sky-dark);
+}
+
+/* ══════════════════════════════════════════
+   ARTICLES / CARDS
+══════════════════════════════════════════ */
+article {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  animation: fadeUp 0.32s ease both;
+  box-shadow: 0 2px 12px rgba(91,191,224,0.06);
+}
+
+article:hover {
+  border-color: var(--border2);
+  box-shadow: 0 6px 24px rgba(91,191,224,0.12);
+  transform: translateY(-2px);
+}
+
+/* Bandeau coloré en haut de chaque card */
+article::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 22px; right: 22px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--sky-light), var(--pink), var(--yellow));
+  border-radius: 0 0 2px 2px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+article:hover::before { opacity: 1; }
+
+/* Header de la card : nom + bouton suivre */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+article h3 { color: var(--sky-dark); }
+
+article p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 4px 0;
+}
+
+article p.date {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+article .content {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 8px 0 14px;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   FORMULAIRES
+══════════════════════════════════════════ */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.93rem;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--sky);
+  box-shadow: 0 0 0 3px var(--sky-dim);
+  background: #fff;
+}
+
+input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+/* ══════════════════════════════════════════
+   BOUTONS
+══════════════════════════════════════════ */
+button, input[type="submit"] {
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  transition: all 0.2s;
+}
+
+/* CTA principal */
+input[type="submit"],
+button[name="newPost"],
+button[name="newComment"] {
+  background: var(--sky);
+  color: #fff;
+  align-self: flex-start;
+  box-shadow: var(--sky-glow);
+}
+
+input[type="submit"]:hover,
+button[name="newPost"]:hover,
+button[name="newComment"]:hover {
+  background: var(--sky-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(91,191,224,0.4);
+}
+
+input[type="submit"]:active,
+button[name="newPost"]:active,
+button[name="newComment"]:active { transform: translateY(0); }
+
+/* Like ❤️ */
+button[name="like"] {
+  background: var(--coral-dim);
+  color: var(--coral);
+  border: 1.5px solid rgba(255,123,123,0.25) !important;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  border-radius: 20px !important;
+  font-weight: 700;
+}
+
+button[name="like"]:hover {
+  background: rgba(255,123,123,0.18);
+  border-color: var(--coral) !important;
+  transform: scale(1.05);
+}
+
+/* Suivre */
+button[name="subscribe"] {
+  background: var(--sky-dim);
+  color: var(--sky-dark);
+  border: 1.5px solid var(--border2) !important;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  border-radius: 20px !important;
+}
+
+button[name="subscribe"]:hover {
+  background: var(--sky);
+  color: #fff;
+  border-color: var(--sky) !important;
+  box-shadow: var(--sky-glow);
+}
+
+/* Déconnexion */
+button[value="logout"] {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1.5px solid var(--border2) !important;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  border-radius: 20px !important;
+}
+
+button[value="logout"]:hover {
+  color: var(--coral);
+  border-color: var(--coral) !important;
+  background: var(--coral-dim);
+}
+
+/* Lien commentaires 💬 */
+article a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  transition: all 0.2s;
+  background: var(--yellow-dim);
+}
+
+article a:hover {
+  color: #a07800;
+  border-color: var(--yellow);
+  background: rgba(255,209,102,0.2);
+}
+
+/* Formulaire dans une card → row */
+article form {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  flex-wrap: wrap;
+}
+
+/* ══════════════════════════════════════════
+   AUTH PAGES (login / register)
+   Ajouter class="auth-page" sur le <body>
+══════════════════════════════════════════ */
+body.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #dff0f9 0%, #f2f8fc 50%, #fef0f5 100%);
+}
+
+body.auth-page h1 { display: none; }
+
+body.auth-page main {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 44px 38px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0;
+  box-shadow:
+    0 20px 50px rgba(91,191,224,0.12),
+    0 4px 16px rgba(0,0,0,0.06),
+    0 0 0 1px var(--border);
+  animation: fadeUp 0.45s ease;
+}
+
+/* Logo en haut des pages auth */
+body.auth-page main::before {
+  content: 'Miniature';
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 2.4rem;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 6px;
+  background: linear-gradient(130deg, var(--sky-dark) 0%, var(--sky) 55%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.auth-page h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+
+body.auth-page form {
+  gap: 14px;
+}
+
+body.auth-page input[type="submit"] {
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: var(--radius-sm) !important;
+  margin-top: 4px;
+}
+
+/* Lien switch login ↔ register */
+body.auth-page .switch-link {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.83rem;
+  color: var(--text-muted);
+}
+
+body.auth-page .switch-link a {
+  color: var(--sky-dark);
+  font-weight: 700;
+}
+
+body.auth-page .switch-link a:hover { color: var(--sky); }
+
+/* ══════════════════════════════════════════
+   ERREURS
+══════════════════════════════════════════ */
+.error {
+  background: var(--coral-dim);
+  border: 1px solid rgba(255,123,123,0.3);
+  border-radius: var(--radius-sm);
+  color: var(--coral);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 16px;
+}
+
+/* ══════════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sky-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sky); }
+
+/* ══════════════════════════════════════════
+   SELECTION
+══════════════════════════════════════════ */
+::selection { background: var(--sky-dim); color: var(--sky-dark); }
