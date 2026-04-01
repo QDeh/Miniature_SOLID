@@ -14,6 +14,8 @@ public interface UserRepositoryInterface {
 
     Optional<User> findById(int id);
 
+    Optional<User> findByLogin(String login);
+
     List<User> findAll();
 
     void save(User user);

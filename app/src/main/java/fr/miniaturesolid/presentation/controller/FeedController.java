@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.miniaturesolid.application.usecase.GetFeedUseCase;
 import org.jspecify.annotations.NonNull;
 
 import fr.miniaturesolid.domain.database.Database;
@@ -22,6 +23,7 @@ public class FeedController extends HttpServlet {
     private Database database;
     private List<@NonNull Post> posts = database.getAll(Post.class);
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -39,12 +41,14 @@ public class FeedController extends HttpServlet {
                     .filter(u -> user.getSubscriptions().stream()
                     .anyMatch(sub -> sub.getLogin().equals(u.getOwner().getLogin())))
                     .toList();
+            // feedUseCase.execute(user.getId(), "Subscriptions")
         }
 
         postsList = postsList.stream()
                 .filter(p -> p.getParent() == null)
                 .sorted((a, b) -> b.getcreatedAt().compareTo(a.getcreatedAt()))
                 .collect(Collectors.toList());
+        // feedUseCase.execute(user.getId(), "Recommendations")
 
         req.setAttribute("posts", postsList);
         req.getRequestDispatcher("/WEB-INF/views/feeds.jsp").forward(req, resp);

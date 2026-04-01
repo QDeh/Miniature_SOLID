@@ -1,10 +1,14 @@
 package fr.miniaturesolid.infrastructure.config;
 
-//import fr.simplon.application.usecase.GetGreetingUseCase;
-//import fr.simplon.application.usecase.LoginUseCase;
-//import fr.simplon.application.usecase.RegisterUseCase;
+
+
+import fr.miniaturesolid.application.decorator.BaseContentProcessor;
+import fr.miniaturesolid.application.decorator.ContentProcessor;
+import fr.miniaturesolid.application.decorator.EscapeHtmlContentDecorator;
+import fr.miniaturesolid.application.usecase.*;
 import fr.miniaturesolid.domain.database.Database;
 import fr.miniaturesolid.domain.entity.User;
+import fr.miniaturesolid.domain.repository.PostRepositoryInterface;
 import fr.miniaturesolid.domain.repository.UserRepositoryInterface;
 import fr.miniaturesolid.infrastructure.database.InMemoryDatabase;
 import fr.miniaturesolid.infrastructure.repository.UserRepository;
@@ -24,20 +28,33 @@ public class ServiceLocator {
     }
 
     private final UserRepositoryInterface userRepository;
-    // private final LoginUseCase loginUseCase;
-    // private final RegisterUseCase registerUseCase;
-    // private final GetGreetingUseCase getGreetingUseCase;
+    private final PostRepositoryInterface postRepository;
+    private final LoginUseCase loginUseCase;
+    private final RegisterUseCase registerUseCase;
+    private final GetFeedUseCase getFeedUseCase;
+    private final GetPostDetailUseCase getPostDetailUseCase;
+    private final LikeUseCase likeUseCase;
+    private final SubscribeUseCase subscribeUseCase;
+    private final PostUseCase postUseCase;
+    private final CommentUseCase commentUseCase;
+
 
     private ServiceLocator() {
-        this.database = new InMemoryDatabase();
-        this.userRepository = new UserRepository(database);
+        database = new InMemoryDatabase();
+        userRepository = new UserRepository(database);
+        loginUseCase = new LoginUseCase(userRepository);
+        registerUseCase = new RegisterUseCase(userRepository);
+        getFeedUseCase = getFeedUseCase;
+        getPostDetailUseCase = getPostDetailUseCase;
+        likeUseCase = likeUseCase;
+        subscribeUseCase = subscribeUseCase;
+        postUseCase = postUseCase;
+        commentUseCase = commentUseCase;
 
-        this.userRepository.save(new User("admin", "admin@admin.com", "admin"));
-        this.userRepository.save(new User("suer", "suer@suer.com", "suer"));
+        userRepository.save(new User("admin", "admin@admin.com", "admin"));
+        userRepository.save(new User("suer", "suer@suer.com", "suer"));
 
-        // this.loginUseCase = new LoginUseCase(userRepository);
-        // this.registerUseCase = new RegisterUseCase(userRepository);
-        // this.getGreetingUseCase = new GetGreetingUseCase();
+
     }
 
     public static synchronized ServiceLocator getInstance() {
@@ -46,6 +63,17 @@ public class ServiceLocator {
         }
         return instance;
     }
+
+    ContentProcessor contentProcessor = new EscapeHtmlContentDecorator(new BaseContentProcessor());
+
+    this.loginUseCase = new LoginUseCase(userRepository);
+    this.registerUseCase = new RegisterUseCase(userRepository);
+    getFeedUseCase = new GetFeedUseCase(database, userRepository, postRepository);
+    getPostDetailUseCase = getPostDetailUseCase;
+    likeUseCase = likeUseCase;
+    subscribeUseCase = subscribeUseCase;
+    commentUseCase = commentUseCase;
+    postUseCase = postUseCase;
 
     /*
      * public LoginUseCase getLoginUseCase() {

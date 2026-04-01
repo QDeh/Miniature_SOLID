@@ -26,6 +26,12 @@ public class UserRepository implements UserRepositoryInterface {
     }
 
     @Override
+    public Optional<User> findByLogin(String login) {
+        return database.findFirst(User.class, u -> u.getLogin().equals(login));
+    }
+
+
+    @Override
     public List<User> findAll() {
         return database.getAll(User.class);
     }
