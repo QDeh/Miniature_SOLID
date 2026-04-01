@@ -11,6 +11,7 @@ import fr.miniaturesolid.domain.entity.User;
 import fr.miniaturesolid.domain.repository.PostRepositoryInterface;
 import fr.miniaturesolid.domain.repository.UserRepositoryInterface;
 import fr.miniaturesolid.infrastructure.database.InMemoryDatabase;
+import fr.miniaturesolid.infrastructure.repository.PostRepository;
 import fr.miniaturesolid.infrastructure.repository.UserRepository;
 
 /**
@@ -42,14 +43,15 @@ public class ServiceLocator {
     private ServiceLocator() {
         database = new InMemoryDatabase();
         userRepository = new UserRepository(database);
+        postRepository = new PostRepository(database);
         loginUseCase = new LoginUseCase(userRepository);
         registerUseCase = new RegisterUseCase(userRepository);
-        getFeedUseCase = getFeedUseCase;
-        getPostDetailUseCase = getPostDetailUseCase;
-        likeUseCase = likeUseCase;
-        subscribeUseCase = subscribeUseCase;
-        postUseCase = postUseCase;
-        commentUseCase = commentUseCase;
+        getFeedUseCase = new GetFeedUseCase(database, userRepository, postRepository);
+        getPostDetailUseCase = new GetPostDetailUseCase(postRepository, database);
+        likeUseCase =  new LikeUseCase(postRepository, userRepository);
+        subscribeUseCase = new SubscribeUseCase(userRepository);
+        postUseCase = new PostUseCase(postRepository, userRepository, contentProcessor);
+        commentUseCase = new CommentUseCase(postRepository, userRepository, contentProcessor);
 
         userRepository.save(new User("admin", "admin@admin.com", "admin"));
         userRepository.save(new User("suer", "suer@suer.com", "suer"));
@@ -66,14 +68,6 @@ public class ServiceLocator {
 
     ContentProcessor contentProcessor = new EscapeHtmlContentDecorator(new BaseContentProcessor());
 
-    this.loginUseCase = new LoginUseCase(userRepository);
-    this.registerUseCase = new RegisterUseCase(userRepository);
-    getFeedUseCase = new GetFeedUseCase(database, userRepository, postRepository);
-    getPostDetailUseCase = getPostDetailUseCase;
-    likeUseCase = likeUseCase;
-    subscribeUseCase = subscribeUseCase;
-    commentUseCase = commentUseCase;
-    postUseCase = postUseCase;
 
     /*
      * public LoginUseCase getLoginUseCase() {
