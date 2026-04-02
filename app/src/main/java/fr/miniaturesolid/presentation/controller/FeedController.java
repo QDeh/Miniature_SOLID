@@ -2,53 +2,52 @@ package fr.miniaturesolid.presentation.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import fr.miniaturesolid.application.usecase.GetFeedUseCase;
-import org.jspecify.annotations.NonNull;
+import fr.miniaturesolid.application.usecase.*;
 
-import fr.miniaturesolid.domain.database.Database;
+
 import fr.miniaturesolid.domain.entity.*;
+import fr.miniaturesolid.infrastructure.config.ServiceLocator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
 
 @WebServlet("/feeds")
-public class FeedController extends HttpServlet {
+public class FeedController extends AuthenticatedController {
 
-    private Database database;
-    private List<@NonNull Post> posts = database.getAll(Post.class);
+
+    private GetFeedUseCase feedUseCase;
+    private LikeUseCase likeUseCase;
+    private PostUseCase postUseCase;
+    private SubscribeUseCase subscribeUseCase;
+    private List<Post> postsList;
+
+    
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        feedUseCase = ServiceLocator.getInstance().getGetFeedUseCase();
+        likeUseCase = ServiceLocator.getInstance().getLikeUseCase();
+        postUseCase = ServiceLocator.getInstance().getPostUseCase();
+        subscribeUseCase = ServiceLocator.getInstance().getSubscribeUseCase();
+
+    }
+
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void handleGet(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
 
-        HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            resp.sendRedirect("/login");
-            return;
-        }
         String action = req.getParameter("action");
-        User user = (User) session.getAttribute("user");
-
-        List<@NonNull Post> postsList = posts;
+        
         if ("subscriptions".equals(action)) {
-            postsList = posts.stream()
-                    .filter(u -> user.getSubscriptions().stream()
-                    .anyMatch(sub -> sub.getLogin().equals(u.getOwner().getLogin())))
-                    .toList();
-            // feedUseCase.execute(user.getId(), "Subscriptions")
+            postsList = feedUseCase.execute(user.getId(), "Subscriptions");
+        }else {
+            postsList = feedUseCase.execute(user.getId(), "Recommendations");
         }
-
-        postsList = postsList.stream()
-                .filter(p -> p.getParent() == null)
-                .sorted((a, b) -> b.getcreatedAt().compareTo(a.getcreatedAt()))
-                .collect(Collectors.toList());
-        // feedUseCase.execute(user.getId(), "Recommendations")
 
         req.setAttribute("posts", postsList);
         req.getRequestDispatcher("/WEB-INF/views/feeds.jsp").forward(req, resp);
@@ -59,10 +58,7 @@ public class FeedController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        HttpSession session = req.getSession(false);
-        User connectedUser = (User) session.getAttribute("user");
+    protected void handlePost(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
 
         String content = req.getParameter("content");
         String subscribe = req.getParameter("subscribe");
@@ -70,18 +66,18 @@ public class FeedController extends HttpServlet {
         String comment = req.getParameter("comment");
 
 
-        for (Post post : posts) {
+        for (Post post : postsList) {
             String id = String.valueOf(post.getId());
 
             if (id.equals(subscribe)) {
-                User user = post.getOwner();
-                connectedUser.updateSubscriptions(user);
+                User owner = post.getOwner();
+                subscribeUseCase.execute(user.getId(), owner.getId());
                 resp.sendRedirect("/feeds");
                 return;
             }
 
             if (id.equals(like)) {
-                post.updateLikes(connectedUser);
+                likeUseCase.execute(user.getId(), post.getId());
                 resp.sendRedirect("/feeds");
                 return;
             }
@@ -94,8 +90,7 @@ public class FeedController extends HttpServlet {
         }
 
         if (content != null && !content.isEmpty()) {
-            Post post = new Post(connectedUser, content, null);
-            posts.add(post);
+            postUseCase.execute(user.getId(), content);
             resp.sendRedirect("/feeds");
             return;
         } else {

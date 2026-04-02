@@ -24,7 +24,7 @@ public class SubscribeUseCase {
         if (targetUserOpt == null) return;
 
         userOpt.ifPresent(user -> {
-            if (!user.getSubscriptions().contains(user)) {
+            if (!user.getSubscriptions().contains(targetUserOpt)) {
                 user.subscribe(targetUserOpt);
             } else {
                 user.unsubscribe(targetUserOpt);

@@ -13,7 +13,7 @@ public class RegisterUseCase {
         this.userRepository = userRepository;
     }
 
-    private String validate(String login, String email, String password, String confirmPassword) {
+    public String validate(String login, String email, String password, String confirmPassword) {
         Optional<User> userOpt = userRepository.findByLogin(login);
         if (login.isBlank())
             return "Username vide";
@@ -21,6 +21,7 @@ public class RegisterUseCase {
             return "Les mots de passe ne correspondent pas";
         if (userOpt.isPresent())
             return "Username déjà pris";
+        userRepository.save(new User(login, email, password));
         return null;
     }
 }

@@ -12,9 +12,9 @@ public class LoginUseCase {
         this.userRepository = userRepository;
     }
 
-    private String validate(String login, String email, String password, String confirmPassword) {
-        Optional<User> userOpt = userRepository.findByLogin(login);
-        if (userOpt.isEmpty() || !password.equals(confirmPassword)){
+    public String validate(String login, String password) {
+        User user = userRepository.findByLogin(login).orElse(null);
+        if (user.getLogin().isEmpty() || !user.getPassword().equals(password)){
             return "Erreur d'authentification";
         }
         return null;

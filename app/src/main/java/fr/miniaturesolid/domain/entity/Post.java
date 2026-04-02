@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
-public class Post implements Entity {
+public class Post {
     static int nbPosts = 0;
     private int id;
     private User owner;
@@ -68,7 +68,6 @@ public class Post implements Entity {
         return likedBy;
     }
 
-    @Override
     public int getId() {
         return id;
     }

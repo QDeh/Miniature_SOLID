@@ -3,7 +3,7 @@ package fr.miniaturesolid.domain.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Entity{
+public class User {
     private static int nbUsers = 0;
     private int id;
     private String login;
@@ -20,7 +20,6 @@ public class User implements Entity{
         this.subscriptions = new ArrayList<>();
     }
 
-    @Override
     public int getId() {
         return id;
     }

@@ -68,18 +68,48 @@ public class ServiceLocator {
 
     ContentProcessor contentProcessor = new EscapeHtmlContentDecorator(new BaseContentProcessor());
 
+    public UserRepositoryInterface getUserRepository() {
+        return userRepository;
+    }
 
-    /*
-     * public LoginUseCase getLoginUseCase() {
-     * return loginUseCase;
-     * }
-     * 
-     * public RegisterUseCase getRegisterUseCase() {
-     * return registerUseCase;
-     * }
-     * 
-     * public GetGreetingUseCase getGetGreetingUseCase() {
-     * return getGreetingUseCase;
-     * }
-     */
+    public PostRepositoryInterface getPostRepository() {
+        return postRepository;
+    }
+
+    public LoginUseCase getLoginUseCase() {
+        return loginUseCase;
+    }
+
+    public RegisterUseCase getRegisterUseCase() {
+        return registerUseCase;
+    }
+
+    public GetFeedUseCase getGetFeedUseCase() {
+        return getFeedUseCase;
+    }
+
+    public GetPostDetailUseCase getGetPostDetailUseCase() {
+        return getPostDetailUseCase;
+    }
+
+    public LikeUseCase getLikeUseCase() {
+        return likeUseCase;
+    }
+
+    public SubscribeUseCase getSubscribeUseCase() {
+        return subscribeUseCase;
+    }
+
+    public PostUseCase getPostUseCase() {
+        return postUseCase;
+    }
+
+    public CommentUseCase getCommentUseCase() {
+        return commentUseCase;
+    }
+
+    public ContentProcessor getContentProcessor() {
+        return contentProcessor;
+    }
+    
 }

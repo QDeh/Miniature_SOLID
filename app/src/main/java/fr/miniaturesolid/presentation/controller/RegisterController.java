@@ -6,8 +6,11 @@ import java.util.Optional;
 
 import org.jspecify.annotations.NonNull;
 
+import fr.miniaturesolid.application.usecase.LoginUseCase;
+import fr.miniaturesolid.application.usecase.RegisterUseCase;
 import fr.miniaturesolid.domain.database.Database;
 import fr.miniaturesolid.domain.entity.User;
+import fr.miniaturesolid.infrastructure.config.ServiceLocator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,12 +21,16 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/register")
 public class RegisterController extends HttpServlet  {
 
-    private Database database;
-    private List<@NonNull User> users = database.getAll(User.class);
+    private RegisterUseCase registerUseCase;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.registerUseCase = ServiceLocator.getInstance().getRegisterUseCase();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
     }
 
@@ -31,19 +38,16 @@ public class RegisterController extends HttpServlet  {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         String login = req.getParameter("login");
+        String email = req.getParameter("email");
         String password = req.getParameter("password");
-        Optional<@NonNull User> optUser = users.stream()
-                .filter(u -> u.getLogin().equals(login) && u.getPassword().equals(password))
-                .findFirst();
+        String confirmPassword = req.getParameter("confirm");
 
-        if (optUser.isPresent()) {
-            HttpSession session = req.getSession();
-            User user = optUser.get();
-            session.setAttribute("user", user);
-            resp.sendRedirect("/feeds");
+        String error = registerUseCase.validate(login, email, password, confirmPassword);
+        if (error == null) {
+            resp.sendRedirect("/login");
         } else {
-            req.setAttribute("error", "Login ou mot de passe incorrect");
-            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+            req.setAttribute("error", error);
+            req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
         }
     }
 }

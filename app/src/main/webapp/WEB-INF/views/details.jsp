@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List"  %>
-<%@ page import="fr.miniaturesolid.domain.entities.Post"  %>
-<%@ page import="fr.miniaturesolid.domain.entities.User"  %>
+<%@ page import="fr.miniaturesolid.domain.entity.Post"  %>
+<%@ page import="fr.miniaturesolid.domain.entity.User"  %>
 
 <!DOCTYPE html>
 <html lang="en">

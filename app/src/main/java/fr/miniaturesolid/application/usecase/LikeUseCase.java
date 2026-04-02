@@ -1,6 +1,5 @@
 package fr.miniaturesolid.application.usecase;
 
-import fr.miniaturesolid.domain.entity.Entity;
 import fr.miniaturesolid.domain.entity.Post;
 import fr.miniaturesolid.domain.entity.User;
 import fr.miniaturesolid.domain.repository.PostRepositoryInterface;
