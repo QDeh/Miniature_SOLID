@@ -16,7 +16,7 @@
         <h1>Miniature</h1>
         <p>Bienvenue <%= ((User) session.getAttribute("user")).getLogin() %></p>
         <form method="post" action="/details">
-            <button name="action" value="logout" type="submit">Se déconnecter</button>
+            <a href="/logout">Se déconnecter</a>
         </form>
     </header>
     <main>

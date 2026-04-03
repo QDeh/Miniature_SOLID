@@ -3,10 +3,8 @@ package fr.miniaturesolid.application.usecase;
 import fr.miniaturesolid.domain.database.Database;
 import fr.miniaturesolid.domain.entity.Post;
 import fr.miniaturesolid.domain.repository.PostRepositoryInterface;
-import fr.miniaturesolid.domain.repository.UserRepositoryInterface;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GetPostDetailUseCase {
 

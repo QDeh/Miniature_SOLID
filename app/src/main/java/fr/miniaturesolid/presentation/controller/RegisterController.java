@@ -1,22 +1,13 @@
 package fr.miniaturesolid.presentation.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
-import org.jspecify.annotations.NonNull;
-
-import fr.miniaturesolid.application.usecase.LoginUseCase;
 import fr.miniaturesolid.application.usecase.RegisterUseCase;
-import fr.miniaturesolid.domain.database.Database;
-import fr.miniaturesolid.domain.entity.User;
 import fr.miniaturesolid.infrastructure.config.ServiceLocator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/register")
 public class RegisterController extends HttpServlet  {

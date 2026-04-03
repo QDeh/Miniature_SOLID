@@ -1,10 +1,6 @@
 package fr.miniaturesolid.presentation.controller;
 
 import java.io.IOException;
-import java.util.List;
-
-import org.apache.catalina.Session;
-import org.jspecify.annotations.NonNull;
 
 import fr.miniaturesolid.application.usecase.LoginUseCase;
 import fr.miniaturesolid.domain.entity.User;

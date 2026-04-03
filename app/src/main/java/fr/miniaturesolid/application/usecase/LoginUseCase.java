@@ -3,8 +3,6 @@ package fr.miniaturesolid.application.usecase;
 import fr.miniaturesolid.domain.entity.User;
 import fr.miniaturesolid.domain.repository.UserRepositoryInterface;
 
-import java.util.Optional;
-
 public class LoginUseCase {
     private final UserRepositoryInterface userRepository;
 

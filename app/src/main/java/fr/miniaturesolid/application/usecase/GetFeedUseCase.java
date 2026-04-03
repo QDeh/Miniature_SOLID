@@ -8,7 +8,6 @@ import fr.miniaturesolid.domain.repository.UserRepositoryInterface;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GetFeedUseCase {
     private final UserRepositoryInterface userRepository;
