@@ -36,6 +36,7 @@ public class GetFeedUseCase {
                     .toList();
         } else if (toggleView.equals("Subscriptions")){
             allPosts = allPosts.stream()
+                    .filter(p -> p.getParent() == null)
                     .filter(u -> user.getSubscriptions().stream()
                     .anyMatch(sub -> sub.getLogin().equals(u.getOwner().getLogin())))
                     .toList();

@@ -53,9 +53,6 @@ public class FeedController extends AuthenticatedController {
         req.getRequestDispatcher("/WEB-INF/views/feeds.jsp").forward(req, resp);
     }
 
-    protected void getSubscriptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-    }
 
     @Override
     protected void handlePost(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
