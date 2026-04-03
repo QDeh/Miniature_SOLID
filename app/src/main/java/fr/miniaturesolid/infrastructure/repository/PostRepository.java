@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implémentation de UserRepositoryInterface utilisant une Database.
+ * Implémentation de PostRepositoryInterface utilisant une Database.
  * Permet de séparer la logique métier de la persistance des données.
  * Pour changer de base de données, il suffit de remplacer l'implémentation de Database.
  */
